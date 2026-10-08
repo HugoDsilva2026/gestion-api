@@ -1,0 +1,17 @@
+# Maven
+target/
+*.class
+*.jar
+ 
+# IDE
+.idea/
+*.iml
+.vscode/
+ 
+# Configuración local (nunca se sube)
+.env
+ 
+# Sistema
+Thumbs.db
+.DS_Store
+
