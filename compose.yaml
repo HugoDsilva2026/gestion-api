@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: gestion
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+    volumes:
+      - datos:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+ 
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on: [db]
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:mysql://db:3306/gestion
+      DB_USER: gestion_app
+      DB_PASSWORD: ${APP_DB_PASSWORD}
+    ports:
+      - "8080:8080"
+ 
+volumes:
+  datos:
