@@ -19,8 +19,18 @@ services:
       DB_URL: jdbc:mysql://db:3306/gestion
       DB_USER: gestion_app
       DB_PASSWORD: ${APP_DB_PASSWORD}
+    # sin ports: solo se llega a la API a través de Nginx
+ 
+  proxy:
+    image: nginx:1.28-alpine
+    restart: unless-stopped
+    depends_on: [api]
     ports:
-      - "8080:8080"
+      - "${PUERTO_WEB:-80}:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/html:/usr/share/nginx/html:ro
  
 volumes:
   datos:
+
